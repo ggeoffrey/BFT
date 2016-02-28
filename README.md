@@ -39,8 +39,7 @@ Because it's a functionnal, [homoiconic](https://en.wikipedia.org/wiki/Homoiconi
 
 Copyright © 2016 - Will eventually change -
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the Eclipse Public License either version 1.0 or any later version.
 
 
 #### Bibliography
