@@ -51,5 +51,5 @@ post classes and normal forms of boolean functions. Discrete mathematics, 306(24
 
 > [3] Yves Crama and Peter L Hammer. Boolean functions : Theory, algorithms, and applications. Cambridge University Press, 2011.
 
-> [4] Martin LENSCHAT, Pierre MERCURIALI and Stéphane TIV : Formes normales en logique propositionnelle. 2015. Université de Lorraine. [PDF](http://mathinfo.univ-lorraine.fr/sites/mathinfo.univ-lorraine.fr/files/users/documents/SCA/projtut/2014-2015/rapports/m1sca_rapportprojettut_lentschat_mercuriali_tiv.pdf) (French).
+> [4] Martin LENSCHAT, Pierre MERCURIALI and Stéphane TIV : Formes normales en logique propositionnelle. 2015. Université de Lorraine & [Loria](http://www.loria.fr/loria-news?set_language=en). [PDF](http://mathinfo.univ-lorraine.fr/sites/mathinfo.univ-lorraine.fr/files/users/documents/SCA/projtut/2014-2015/rapports/m1sca_rapportprojettut_lentschat_mercuriali_tiv.pdf) (French).
 
