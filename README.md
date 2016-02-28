@@ -20,7 +20,7 @@ At the moment, can transform:
 
 ## Usage
 
-This is a work in progress, comming soon ;)
+This is a work in progress, coming soon ;)
 
 #### Why Clojure? 
 
