@@ -6,18 +6,27 @@
 >  ― J.M. Barrie, Peter Pan  
 
 So let's talk the fairy way!  
-Made with the almighty [Clojure](http://clojure.org/), the red pill that takes you down the rabbit hole.
+Made with the almighty [Clojure](http://clojure.org/), the red pill that takes you down the rabbit hole.  
 
 
 ###  Abtract
 
 A Clojure library designed to translate boolean functions back and forth different normal forms.
 
+At the moment, can transform:
+- From truth table
+  - to CNF
+  - to BNF
+
 ## Usage
 
-This is a work in progress, comming soon ;)
+This is a work in progress, coming soon ;)
 
-## License
+#### Why Clojure? 
+
+Because it's a functionnal, [homoiconic](https://en.wikipedia.org/wiki/Homoiconicity) programmable programming language. Allowing a program to create programs, and a function to create and manipulate functions' code. As we are transforming boolean functions, is there a better suited language than a Lisp? Are you able to write, parse, and manipulate the AST at runtime with a classic imperative language? Think about it.
+
+#### License
 
 Copyright © 2016 - Will eventually change -
 
