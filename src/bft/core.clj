@@ -1,5 +1,14 @@
 (ns bft.core
-  (:require [clojure.core.match :refer [match]]))
+  (:require [clojure.core.match :refer [match]]
+            [clojure.math.combinatorics :as combo]))
+
+
+;; to generate tuples for PNF
+(comment (->> (combo/partitions '[x y z])         
+              (filter (fn [item] (not (empty? item))))
+              (mapcat identity)
+              (sort-by count <)
+              (distinct)))
 
 
 (defn med
@@ -95,9 +104,11 @@
 
 (defn table->nf
   "Transform a truth table to a normal form
-   ex:  (table->dnf '[x y z] [[[0 0 1] 1]
-                              [[1 0 0] 0]
-                              [[0 1 0] 1]]  :dnf"
+   ex:  (table->dnf '[x y z] 
+                   [[[0 0 1] 1]
+                    [[1 0 0] 0]
+                    [[0 1 0] 1]]
+                    :dnf"
   [names table form]
   (let [translator (case form
                      :dnf line->conjuntion
@@ -108,8 +119,8 @@
                              :cnf 0
                              nil)
         factor (case form
-                 :dnf 'or  ;; V
-                 :cnf 'and ;; Λ
+                 :dnf 'or
+                 :cnf 'and
                  nil)]
     (->> table   ;; take the table
          (filter (fn [line] (= (last line) result-to-focus-on ))) ;; keep only desired lines
