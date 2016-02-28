@@ -1,16 +1,15 @@
 ## Boolean Functions Translator
 
-> “Fairies have to be one thing or the other, 
-> because being so small they unfortunately have room for one feeling only at a time.  
-> They are, however, allowed to change, only it must be a complete change.”  
+> “Fairies have to be one thing or the other,  
+> because being so small they unfortunately have room for one feeling only at a time.   
+> They are, however, allowed to change, only it must be a complete change.”   
 >  ― J.M. Barrie, Peter Pan  
 
-So let's talk the fairy way!
-
+So let's talk the fairy way!  
 Made with the almighty [Clojure](http://clojure.org/), the red pill that takes you down the rabbit hole.
 
 
-###  
+###  Abtract
 
 A Clojure library designed to translate boolean functions back and forth different normal forms.
 
