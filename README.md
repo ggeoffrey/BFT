@@ -9,7 +9,7 @@ So let's talk the fairy way!
 Made with the almighty [Clojure](http://clojure.org/), the red pill that takes you down the rabbit hole.  
 
 
-###  Abtract
+###  Abstract
 
 A Clojure library designed to translate boolean functions back and forth different normal forms. **The generated code is valid and dynamically executable Clojure code.**
 
