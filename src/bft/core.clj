@@ -19,8 +19,8 @@
     (cond
      (empty? names) nil  ;; no litterals ? -> nil
      (empty? values) nil  ;; no corresponding values ? -> nil
-     (not (= (count names) (count values))) nil ;; not the same amount of litterals and value ? -> nil
-     (not (or (= 1 result) (= 0 result))) nil ;; result is neighter 0 nor 1
+     (not (= (count names) (count values))) nil ;; not the same amount of litterals and values ? -> nil
+     (not (or (= 1 result) (= 0 result))) nil ;; result is neither 0 nor 1
      :else line)))
 
 
