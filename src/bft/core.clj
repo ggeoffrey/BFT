@@ -11,29 +11,6 @@
               (distinct)))
 
 
-(defn med
-  "The med(x,y,z) funtion, returning the most frequent arg."
-  [x y z]
-  (match [x y z]
-         [1 1 _] 1
-         [_ 1 1] 1
-         [1 _ 1] 1
-         :else   0))
-
-;; (def med-variadic
-;;   "Mediane avec nombre variable d'arguments.
-;;   Pas vraiment sûr que cela ai du sens… mais bon…"
-;;   (fn [& args]
-;;     (cond
-;;      (empty? args) 0   ;; f() -> 0
-;;      (nil? (first (rest args)))  (first args)  ;; f(x) -> x
-;;      :else (->> args              ;; prendre les arguments
-;;                 (frequencies)     ;; déterminer la fréquence
-;;                 (sort-by val >)   ;; trier par fréquence
-;;                 (first)           ;; ne garder que le premier
-;;                 (first)           ;; ne garder que l'argument
-;;                 ))))
-
 
 (defn check-line-format
   "Check if a line is well formated."
@@ -42,8 +19,8 @@
     (cond
      (empty? names) nil  ;; no litterals ? -> nil
      (empty? values) nil  ;; no corresponding values ? -> nil
-     (not (= (count names) (count values))) nil ;; not the same amount of litterals and value ? -> nil
-     (not (or (= 1 result) (= 0 result))) nil ;; result is neighter 0 nor 1
+     (not (= (count names) (count values))) nil ;; not the same amount of litterals and values ? -> nil
+     (not (or (= 1 result) (= 0 result))) nil ;; result is neither 0 nor 1
      :else line)))
 
 
