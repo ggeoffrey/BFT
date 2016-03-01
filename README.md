@@ -95,6 +95,20 @@ If you want “real“ maths, you can `(use-symbols! :fancy)` and it will produc
 (my-lambda 1 1 0) ;; => true
   
 ```
+
+#### Q & A
+**Q**: Why using `land`, `lor` and `lnot` rather than the classicals `and`, `or` and `not`?  
+**A**: Because in Clojure numbers are java.lang.Long instances. So 0 is not falsey -it's an object-. Demo: 
+`(boolean 0) => true`, `(boolean false) => false`. So I introduced `land`, `lor` and `lnot` than work the same way on `true`, `false`, `0` and `1`. In case of unexpected input, it will produce `nil`, allowing you to find where the problem is.
+  
+**Q**: What are `Λ`,`V` and `¬`? How can I type them on my keyboard?  
+**A**: They are respectively the same as `land`, `lor` and `lnot`. They are true aliases. I added them because they are way more readable -their shape has a direct meaning, they are not words, they are symbols-. They allow production of a “more mathematical“ form. I can type them directly on my Bépo keyboard -french dvorak layout-. They are accessible with:
+- Λ : alt-gr+g L  -uppercase λ-
+- V : V           -uppercase v-
+- ¬ : alt-gr+maj+7  
+I have no idea for other layouts. But don't waste time on this, just use `land`, `lor` and `lnot`.
+
+
 #### Why Clojure? 
 
 Because it's a functionnal, [homoiconic](https://en.wikipedia.org/wiki/Homoiconicity) programmable programming language. Allowing a program to create programs, and a function to create and manipulate functions' code. As we are transforming boolean functions, is there a better suited language than a Lisp? Are you able to write, parse, and manipulate the AST at runtime with a classic imperative language? Think about it.
