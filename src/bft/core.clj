@@ -1,11 +1,35 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;  Welcome to Neverland visitor!          |
+;;                                         |
+;;  {\     /}                              |
+;;   >`.()'<                               |
+;;  {@ /|\/@}                              |
+;;   `/'|`~'                               |
+;;      \\       Let's inspect the fairy   |
+;;      //       society together.         |
+;;     ''                                  |
+;;                                         |
+;;                                         |
+;; Take your brackets with you.            |           
+;; We are going to use them alot!          |           
+;;                                         |           
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 (ns bft.core
-  (:require [bft.nf :refer [table->nf]]
+  (:require [bft.nf :refer [table->nf use-symbols!]]
+            [bft.utils :refer [Λ V ¬ land lor lnot]
             [clojure.core.match :refer [match]]
-            [clojure.math.combinatorics :as combo]))
+            [clojure.math.combinatorics :as combo]]))
+
+
+
+(use-symbols! :fancy)
+(use-symbols! :classic)
 
 
 ;; to generate tuples for PNF
-(comment (->> (combo/partitions '[x y z])         
+(comment (->> (combo/partitions '[x y z])
               (filter (fn [item] (not (empty? item))))
               (mapcat identity)
               (sort-by count <)
@@ -13,7 +37,7 @@
 
 
 (defn check-line-format
-  "Check if a line is well formated."
+  "Check if a truth table's line is well formated."
   [line]
   (let [[names values result] line]
     (cond
@@ -26,7 +50,7 @@
 
 (defn- check-table-format
   "Check if a table is well formated.
-  Return a list of incorrect lines or nil."
+  Return a list of incorrect lines or nil if everything ok."
   [names table]
   (let [bad-lines (filter (fn [line] (nil? (check-line-format
                                            (cons names line))))
@@ -34,29 +58,4 @@
     (cond
         (empty? bad-lines) nil
         :else bad-lines)))
-
-
-(comment (table->nf  '[x y z]
-                    [[[0 0 0] 1]
-                     [[0 0 1] 0]
-                     [[0 1 0] 0]
-                     [[0 1 1] 1]
-                     [[1 0 0] 0]
-                     [[1 0 1] 1]
-                     [[1 1 0] 0]
-                     [[1 1 1] 1]]
-                    :dnf))
-
-
-(comment (table->nf  '[x y z]
-                    [[[0 0 0] 0]
-                     [[0 0 1] 1]
-                     [[0 1 0] 1]
-                     [[0 1 1] 0]
-                     [[1 0 0] 1]
-                     [[1 0 1] 0]
-                     [[1 1 0] 1]
-                     [[1 1 1] 0]]
-                    :cnf))
-
 

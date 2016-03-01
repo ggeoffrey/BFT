@@ -1,5 +1,6 @@
 (ns bft.nf
-  "DNF & CNF.")
+  "DNF & CNF."
+  (:require [bft.utils :refer [Λ V ¬]]))
 
 
 (def *translators*
@@ -8,19 +9,19 @@
   (atom {}))
 
 (def classic-translators
-  {:dnf '[:conjunction or not 1]
-   :cnf '[:disjunction and not 0]})
+  {:dnf '[:conjunction lor lnot 1]
+   :cnf '[:disjunction land lnot 0]})
 
 
 (def fancy-translators
-  {:dnf '[:conjunction  V ¬ 1]
+  {:dnf '[:conjunction V ¬ 1]
    :cnf '[:disjunction Λ ¬ 0]})
 
 
 
 (defn use-symbols!
    "Allow output to be written with math symbols
-  like Λ, V, ¬ or with classic ones like and, or and not."
+  like Λ, V, ¬ or with classic ones like land, lor and lnot."
    [type]
    (case type
      :fancy (reset! *translators* fancy-translators)
@@ -31,8 +32,6 @@
 ;; DEFAULT
 
 (use-symbols! :fancy)
-
-
 
 ;; ---------------------------------------------
 
@@ -88,5 +87,6 @@
          (filter (fn [line] (= (last line) result-to-focus-on ))) ;; keep only desired lines
          (map (fn [line] (cons names line)))  ;; add names to it
          (map (fn [line] (transform-to line translator))) ;; convert each line to NF
-         (cons factor)
-         )))  ;; factorize by Λ or V
+         (cons factor) ;; factorize by Λ or V
+         )))
+
