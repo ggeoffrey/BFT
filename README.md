@@ -35,8 +35,8 @@ Keep in mind this is a work in progress ;)
 ;; First, declare our namespace and import everything we need
 
 (ns your-namespace
-   (:require [bft.nf :refer [table->nf]]
-             [bft.utils :refer [land lor lnot Λ V ¬]])
+   (:require [bft.nf :refer [table->nf use-symbols!]]
+             [bft.utils :refer [land lor lnot, Λ V ¬]])
 
 
 ;;  Then define a truth table
@@ -67,6 +67,7 @@ Keep in mind this is a work in progress ;)
   (table->nf litterals rows :dnf))  ;; to DNF
 
 ;; => (lor (land (lnot x) (lnot y) z) (land (lnot x) y (lnot z)) (land x (lnot y) (lnot z)) (land x y (lnot z)))
+  
 ```
 
 If you want “real“ maths, you can `(use-symbols! :fancy)` and it will produce output with `Λ`,`V` and `¬`. These symbols behave exactly like `land`,`lor` and `lnot` -they are aliases-. If you can type them directly with your keybord -Dvorak, Bépo- do not hesitate, it's really easier to read. Remember: `Λ`,`V` and `¬` are valid functions => `(¬ false) -> true`. 
@@ -78,6 +79,7 @@ If you want “real“ maths, you can `(use-symbols! :fancy)` and it will produc
   (table->nf litterals rows :dnf))  ;; to DNF
 
 ;; => (V (Λ (¬ x) (¬ y) z) (Λ (¬ x) y (¬ z)) (Λ x (¬ y) (¬ z)) (Λ x y (¬ z)))
+  
 ```
 **Run it!**
 ```clojure
@@ -91,7 +93,7 @@ If you want “real“ maths, you can `(use-symbols! :fancy)` and it will produc
 
 ;; call it
 (my-lambda 1 1 0) ;; => true
-
+  
 ```
 #### Why Clojure? 
 
