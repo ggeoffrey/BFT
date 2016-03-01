@@ -18,14 +18,14 @@
 
 (ns bft.core
   (:require [bft.nf :refer [table->nf use-symbols!]]
-            [bft.utils :refer [Λ V ¬ land lor lnot]
+            [bft.utils :refer [Λ V ¬, land lor lnot]
             [clojure.core.match :refer [match]]
             [clojure.math.combinatorics :as combo]]))
 
 
 
-(use-symbols! :fancy)
 (use-symbols! :classic)
+(use-symbols! :fancy)
 
 
 ;; to generate tuples for PNF
@@ -48,7 +48,7 @@
      :else line)))
 
 
-(defn- check-table-format
+(defn check-table-format
   "Check if a table is well formated.
   Return a list of incorrect lines or nil if everything ok."
   [names table]

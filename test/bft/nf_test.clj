@@ -26,7 +26,6 @@
       (Λ x y (¬ z))))
 
 
-
 (facts "About truth table"
   (let [[names rows] table]
     (fact "convertion to CNF should be correct"
