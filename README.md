@@ -29,8 +29,70 @@ At the moment, can transform:
 
 ## Usage
 
-This is a work in progress, coming soon ;)
+Keep in mind this is a work in progress ;)
 
+```clojure
+;; First, declare our namespace and import everything we need
+
+(ns your-namespace
+   (:require [bft.nf :refer [table->nf]]
+             [bft.utils :refer [land lor lnot Λ V ¬]])
+
+
+;;  Then define a truth table
+(def my-table [ '[x y z]
+               [[[0 0 0] 0]
+                [[0 0 1] 1]
+                [[0 1 0] 1]
+                [[0 1 1] 0]
+                [[1 0 0] 1]
+                [[1 0 1] 0]
+                [[1 1 0] 1]
+                [[1 1 1] 0]]])
+
+;; Selec an output mode. Default is :classic
+;; it will use `land`,`lor` and `lnot` -logical and, logical or and logical not-
+
+(use-symbols! :classic)
+
+
+;; Then transform it !
+
+(let [[litterals rows] my-table]
+  (table->nf litterals rows :cnf))  ;; to CNF
+  
+;; => (land (lor x y z) (lor x (lnot y) (lnot z)) (lor (lnot x) y (lnot z)) (lor (lnot x) (lnot y) (lnot z)))
+
+(let [[litterals rows] my-table]
+  (table->nf litterals rows :dnf))  ;; to DNF
+
+;; => (lor (land (lnot x) (lnot y) z) (land (lnot x) y (lnot z)) (land x (lnot y) (lnot z)) (land x y (lnot z)))
+```
+
+If you want “real“ maths, you can `(use-symbols! :fancy)` and it will produce output with `Λ`,`V` and `¬`. These symbols behave exactly like `land`,`lor` and `lnot` -they are aliases-. If you can type them directly with your keybord -Dvorak, Bépo- do not hesitate, it's really easier to read. Remember: `Λ`,`V` and `¬` are valid functions => `(¬ false) -> true`. 
+
+```clojure
+(use-symbols! :fancy) 
+
+(let [[litterals rows] my-table]
+  (table->nf litterals rows :dnf))  ;; to DNF
+
+;; => (V (Λ (¬ x) (¬ y) z) (Λ (¬ x) y (¬ z)) (Λ x (¬ y) (¬ z)) (Λ x y (¬ z)))
+```
+**Run it!**
+```clojure
+(def my-lambda   ;; it's just a copy-past of the generated DNF form.
+  (λ [x y z]
+    (V 
+     (Λ (¬ x) (¬ y) z)
+     (Λ (¬ x) y (¬ z))
+     (Λ x (¬ y) (¬ z))
+     (Λ x y (¬ z)))))
+
+;; call it
+(my-lambda 1 1 0) ;; => true
+
+```
 #### Why Clojure? 
 
 Because it's a functionnal, [homoiconic](https://en.wikipedia.org/wiki/Homoiconicity) programmable programming language. Allowing a program to create programs, and a function to create and manipulate functions' code. As we are transforming boolean functions, is there a better suited language than a Lisp? Are you able to write, parse, and manipulate the AST at runtime with a classic imperative language? Think about it.
