@@ -50,7 +50,7 @@ Keep in mind this is a work in progress ;)
                 [[1 1 0] 1]
                 [[1 1 1] 0]]])
 
-;; Selec an output mode. Default is :classic
+;; Select an output mode. Default is :classic
 ;; it will use `land`,`lor` and `lnot` -logical and, logical or and logical not-
 
 (use-symbols! :classic)
@@ -99,7 +99,7 @@ If you want “real“ maths, you can `(use-symbols! :fancy)` and it will produc
 #### Q & A
 **Q**: Why using `land`, `lor` and `lnot` rather than the classicals `and`, `or` and `not`?  
 **A**: Because in Clojure numbers are java.lang.Long instances. So 0 is not falsey -it's an object-. Demo: 
-`(boolean 0) => true`, `(boolean false) => false`. So I introduced `land`, `lor` and `lnot` than work the same way on `true`, `false`, `0` and `1`. In case of unexpected input, it will produce `nil`, allowing you to find where the problem is.
+`(boolean 0) => true`, `(boolean false) => false`. So I introduced `land`, `lor` and `lnot` that works the same way on `true`, `false`, `0` and `1`. In case of unexpected input, it will produce `nil`, allowing you to find where the problem is.
   
 **Q**: What are `Λ`,`V` and `¬`? How can I type them on my keyboard?  
 **A**: They are respectively the same as `land`, `lor` and `lnot`. They are true aliases. I added them because they are way more readable -their shape has a direct meaning, they are not words, they are symbols-. They allow production of a “more mathematical“ form. I can type them directly on my Bépo keyboard -french dvorak layout-. They are accessible with:
