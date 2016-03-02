@@ -16,13 +16,13 @@ A Clojure library designed to translate boolean functions back and forth differe
 At the moment, can transform:
 - From truth table
   - to CNF (**C**onjunctive **N**ormal **F**orm)
-  - to DNF (**D**isjunctive NF)
+  - to DNF (**D**isjunctive **NF**)
+  - to PNF (**P**olynomial **NF** or Algebraic **NF**)
 
 
 **Comming soon**:
 - From truth table
-  - to PNF (**P**olynomial NF or Algebraic NF)
-  - to MNF (**M**edian NF)
+  - to MNF (**M**edian **NF**)
 - From one form to another one
 - From a form to a boolean lattice, displayed as a [force-directed graph](http://bl.ocks.org/mbostock/1062288) using [d3.layout.force3D](https://github.com/ggeoffrey/d3.layout.force3D)
   
@@ -35,11 +35,11 @@ Keep in mind this is a work in progress ;)
 ;; First, declare our namespace and import everything we need
 
 (ns your-namespace
-   (:require [bft.nf :refer [table->nf use-symbols!]]
-             [bft.utils :refer [land lor lnot, Λ V ¬]])
+   (:require [bft.nf :refer [table->nf]]
+             [bft.utils :refer [land lor lnot lxor, Λ V ¬ ⊕]])
 
 
-;;  Then define a truth table
+;;  Define a truth table
 (def my-table [ '[x y z]
                [[[0 0 0] 0]
                 [[0 0 1] 1]
@@ -49,12 +49,6 @@ Keep in mind this is a work in progress ;)
                 [[1 0 1] 0]
                 [[1 1 0] 1]
                 [[1 1 1] 0]]])
-
-;; Select an output mode. Default is :classic
-;; it will use `land`,`lor` and `lnot` -logical and, logical or and logical not-
-
-(use-symbols! :classic)
-
 
 ;; Then transform it !
 
@@ -70,13 +64,12 @@ Keep in mind this is a work in progress ;)
   
 ```
 
-If you want “real“ maths, you can `(use-symbols! :fancy)` and it will produce output with `Λ`,`V` and `¬`. These symbols behave exactly like `land`,`lor` and `lnot` -they are aliases-. If you can type them directly with your keybord -Dvorak, Bépo- do not hesitate, it's really easier to read. Remember: `Λ`,`V` and `¬` are valid functions => `(¬ false) -> true`. 
+If you want “real“ maths, you can use `:fancy` as trailing parameter and it will produce output with `Λ`, `V`, `¬` and `⊕`. These symbols behave exactly like `land`, `lor`, `lnot` and `lxor` -they are aliases-. If you can type them directly with your keybord -Dvorak, Bépo- do not hesitate, it's really easier to read. Remember `Λ`, `V`, `¬` and `⊕` are valid functions: `(¬ false) => true`. 
 
 ```clojure
-(use-symbols! :fancy) 
 
 (let [[litterals rows] my-table]
-  (table->nf litterals rows :dnf))  ;; to DNF
+  (table->nf litterals rows :dnf :fancy))  ;; to fancy DNF
 
 ;; => (V (Λ (¬ x) (¬ y) z) (Λ (¬ x) y (¬ z)) (Λ x (¬ y) (¬ z)) (Λ x y (¬ z)))
   
@@ -101,12 +94,17 @@ If you want “real“ maths, you can `(use-symbols! :fancy)` and it will produc
 **A**: Because in Clojure numbers are java.lang.Long instances. So 0 is not falsey -it's an object-. Demo: 
 `(boolean 0) => true`, `(boolean false) => false`. So I introduced `land`, `lor` and `lnot` that works the same way on `true`, `false`, `0` and `1`. In case of unexpected input, it will produce `nil`, allowing you to find where the problem is.
   
-**Q**: What are `Λ`,`V` and `¬`? How can I type them on my keyboard?  
-**A**: They are respectively the same as `land`, `lor` and `lnot`. They are true aliases. I added them because they are way more readable -their shape has a direct meaning, they are not words, they are symbols-. They allow production of a “more mathematical“ form. I can type them directly on my Bépo keyboard -french dvorak layout-. They are accessible with:
-- Λ : alt-gr+g L  -uppercase λ-
-- V : V           -uppercase v-
-- ¬ : alt-gr+maj+7  
-I have no idea for other layouts. But don't waste time on this, just use `land`, `lor` and `lnot`.
+**Q**: What are `Λ`, `V`, `¬` and `⊕`? How can I type them on my keyboard?  
+**A**: They are respectively the same as `land`, `lor`, `lnot` and `lxor`. They are true aliases. I added them because they are way more readable -their shape has a direct meaning, they are not words, they are symbols-. They allow production of a “more mathematical“ form. I can type most of them directly on my Bépo keyboard -french dvorak layout-. They are accessible with:
+
+| Symbol | Shortcut     | AKA         |
+|--------|--------------|-------------|
+| Λ      | Alt-gr+g L   | Uppercase λ |
+| V      | Maj+v        | Uppercase v |
+| ¬      | Alt-gr+Maj+7 |             |
+| ⊕,⊗    |              |             |
+
+I have no idea for other layouts (*maybe* [this](https://www.cs.tut.fi/~jkorpela/math/kbd.html)). But don't waste time on this, just use `land`, `lor`, `lnot` and `lxor`.
 
 
 #### Why Clojure? 
