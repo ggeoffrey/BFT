@@ -102,9 +102,9 @@ If you want “real“ maths, you can use `:fancy` as trailing parameter and it 
 | Λ      | Alt-gr+g L   | Uppercase λ |
 | V      | Maj+v        | Uppercase v |
 | ¬      | Alt-gr+Maj+7 |             |
-| ⊕      | ∅            |             |
+| ⊕,⊗    |              |             |
 
-I have no idea for other layouts. But don't waste time on this, just use `land`, `lor`, `lnot` and `lxor`.
+I have no idea for other layouts (*maybe* [this](https://www.cs.tut.fi/~jkorpela/math/kbd.html)). But don't waste time on this, just use `land`, `lor`, `lnot` and `lxor`.
 
 
 #### Why Clojure? 
