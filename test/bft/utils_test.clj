@@ -92,11 +92,11 @@
 
 
 
-(fact "The Hamming weight"
+(fact "Hamming weight"
   (fact "should correspond to the amount of true values in a vector"
     (hamming [true true 0 1]) => 3))
 
-(fact "The parity"
+(fact "Parity"
   (fact "should be the opposit of (mod _ 2)"
     (parity 16) => 0
     (parity -17) => 1))

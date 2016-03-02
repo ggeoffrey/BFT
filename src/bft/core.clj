@@ -17,7 +17,7 @@
 
 
 (ns bft.core
-  (:require [bft.nf :refer [table->nf use-symbols!]]
+  (:require [bft.nf :refer [table->nf convert]]
             [bft.utils :refer [Λ V ¬, land lor lnot]]))
 
 

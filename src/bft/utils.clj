@@ -63,6 +63,7 @@
    (= 1 (hamming args))))
 
 (def ⊕ lxor)
+(def ⊗ ⊕)
 
 
 
@@ -75,4 +76,5 @@
   (cond 
     (even? i) 0
     :else     1))
+
 

@@ -19,8 +19,10 @@
                   ]
              (cond
               (empty? names) result ;; Have we done ? return the result
-              :else (let [litteral (first names)      ;; take the current litteral
-                          corresp-val (first values)] ;; and it's respective value
+              :else (let [;; take the current litteral
+                          litteral (first names)
+                          ;; and it's respective value
+                          corresp-val (first values)]
                       (case corresp-val
                         0 (recur (rest names) (rest values) (cons
                                                              (case type
