@@ -21,6 +21,7 @@
 
 (defn land
   "Logical and"
+  ([] nil)
   ([x] x)
   ([x & xs] (and (boolean x) (apply land (boolean xs)))))
 
@@ -28,6 +29,10 @@
   "Logical or"
   ([x] x)
   ([x & xs] (or (boolean x) (apply lor (boolean xs)))))
+
+
+
+
 
 (def lnot (comp not boolean))
 
@@ -37,4 +42,37 @@
 
 
 
+
+;; ------------------------------------------------
+
+(defn hamming
+  "Compute the Hamming weight of a vector.
+  The Hamming weight is the amount of 1 in this vector.
+  Perfs: not ideal but at least O(n) as map & filter
+         generate lazy sequences."
+  [v]
+  (->> (map boolean v)
+       (filter true?)
+       (count)))
+
+
+(defn lxor
+  "Logical eXclusive or"
+  ([] nil)
+  ([& args]
+   (= 1 (hamming args))))
+
+(def ⊕ lxor)
+
+
+
+;; -----------------
+
+(defn parity
+  "Give the parity of the given integer.
+  In verse of (mod _ 2)"
+  [i]
+  (cond 
+    (even? i) 0
+    :else     1))
 

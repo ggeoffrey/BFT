@@ -18,22 +18,8 @@
 
 (ns bft.core
   (:require [bft.nf :refer [table->nf use-symbols!]]
-            [bft.utils :refer [Λ V ¬, land lor lnot]
-            [clojure.core.match :refer [match]]
-            [clojure.math.combinatorics :as combo]]))
+            [bft.utils :refer [Λ V ¬, land lor lnot]]))
 
-
-
-(use-symbols! :classic)
-(use-symbols! :fancy)
-
-
-;; to generate tuples for PNF
-(comment (->> (combo/partitions '[x y z])
-              (filter (fn [item] (not (empty? item))))
-              (mapcat identity)
-              (sort-by count <)
-              (distinct)))
 
 
 (defn check-line-format
