@@ -18,12 +18,14 @@ At the moment, can transform:
   - to CNF (**C**onjunctive **N**ormal **F**orm)
   - to DNF (**D**isjunctive **NF**)
   - to PNF (**P**olynomial **NF** or Algebraic **NF**)
+- From CNF to BNF and from BNF to CNF
+  
 
 
 **Comming soon**:
+- From one form to another one
 - From truth table
   - to MNF (**M**edian **NF**)
-- From one form to another one
 - From a form to a boolean lattice, displayed as a [force-directed graph](http://bl.ocks.org/mbostock/1062288) using [d3.layout.force3D](https://github.com/ggeoffrey/d3.layout.force3D)
   
 
@@ -35,7 +37,7 @@ Keep in mind this is a work in progress ;)
 ;; First, declare our namespace and import everything we need
 
 (ns your-namespace
-   (:require [bft.nf :refer [table->nf]]
+   (:require [bft.nf :refer [table->nf convert]]
              [bft.utils :refer [land lor lnot lxor, Λ V ¬ ⊕]])
 
 
@@ -86,6 +88,15 @@ If you want “real“ maths, you can use `:fancy` as trailing parameter and it 
 
 ;; call it
 (my-lambda 1 1 0) ;; => true
+
+
+;; Convert it
+
+(def my-form '(V (Λ (¬ x) (¬ y) z) (Λ (¬ x) y (¬ z)) (Λ x (¬ y) (¬ z)) (Λ x y (¬ z))))
+
+(convert '[x y z] my-form :cnf :fancy)
+
+;; => (Λ (V x y z) (V x (¬ y) (¬ z)) (V (¬ x) y (¬ z)) (V (¬ x) (¬ y) (¬ z)))
   
 ```
 
