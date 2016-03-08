@@ -56,6 +56,17 @@
        (count)))
 
 
+(defn parity
+  "Give the parity of the given integer.
+  In verse of (mod _ 2)"
+  [i]
+  (cond 
+    (even? i) 0
+    :else     1))
+
+
+;; -----------------
+
 (defn lxor
   "Logical eXclusive or"
   ([] nil)
@@ -67,14 +78,99 @@
 
 
 
+
+
 ;; -----------------
 
-(defn parity
-  "Give the parity of the given integer.
-  In verse of (mod _ 2)"
-  [i]
-  (cond 
-    (even? i) 0
-    :else     1))
 
+(def temp1 '(land (lor (not x) (not y)) (not z)))
+(def temp2 '(lor (land x (not y)) (lor z (lor (not w)))))
+
+(defn negation?
+  "State if a form is a negation"
+  [form]
+  (let [negation #{'not '¬}]
+    (cond
+      (not (seq? form)) false
+      (contains? negation (first form)) true
+      :else false)))
+
+(defn double-negation?
+  "State if a form is a double negation"
+  [form]
+  (cond
+    (and (negation? form)
+         (negation? (first (rest form)))) true
+    :else false))
+
+
+(defn simplify-not
+  "Reduce double negation of a value to the value itself"
+  [form]
+  (cond
+    (not (seq? form)) form
+    ;; is this a double negation? recur 2 levels deeper
+    (double-negation? form) (recur (rest (first (rest form))))
+    ;; is this a list of list? flatten one level
+    (seq? (first form)) (recur (first form))
+    ;; return what we found
+    :else form))
+
+
+(->> '(lor (lor (lor (land x  (not y) y y (lor y y y y y y y)))))
+     (simplify-logical)
+     (simplify-not))
+
+(defn simplify-logical
+  "Symplify V(x,x) => x and equivalents"
+  [form]
+  (let [logical #{'lor 'land 'Λ 'V}]
+    (cond
+      (not (seq? form)) form  ;; not a form? just return it
+      (contains? logical      ;; start with a logical operator?
+                 (first form)) (cond
+                                 ;; and has only one item in it. drop first
+                                 (= 2 (count form)) (recur (rest form))
+                                 ;; has only the same argument
+                                 (= 1 (count
+                                       (distinct
+                                        (rest form)))) (first (rest form))
+                                 ;; else keep the first and drop duplicates
+                                 ;; amongs arguments
+                                 :else
+                                 (cons (first form) (->> (rest form)
+                                                         (map simplify-logical)
+                                                         (distinct))))
+      ;; is it a list of list? then recur in it and flatten the result
+      (seq? (first form)) (apply simplify-logical form)
+      ;; is the arguments iterables?
+      (and (seq? (rest form))
+           ;; and not empty? /!\ Then recur on it keeping the first
+           (not (empty? (rest form)))) (cons (first form)
+                                             (simplify-logical (rest form)))
+      ;; else don't touch it
+      :else form)))
+
+
+(defn simplify 
+  "Take a form and symplifiy it according to De Morgan laws"
+  [form]
+  )
+
+(defn de-morgan 
+  "Apply the De Morgan theorem to a given form"
+  [form]
+  (cond
+    (seq? form) (cond
+                  (= 'not (first form)) (rest form)
+                  :else (map de-morgan form))
+    :else (cond
+            (= 'land form) 'lor
+            (= 'lor form) 'land
+            :else form)
+    ))
+
+(de-morgan '(land (not y)))
+
+(simplify-not '(not (not (lor x))))
 
