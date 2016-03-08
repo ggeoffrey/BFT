@@ -83,30 +83,34 @@
 ;; -----------------
 
 
-(def temp1 '(land (lor (not x) (not y)) (not z)))
-(def temp2 '(lor (land x (not y)) (lor z (lor (not w)))))
-
-
 (defn unwrap
   "Replace all (x) by x in a form"
   [form]
-  (cond
-    :else (loop [form form]
-            (cond
-              (not (seq? form)) form
-              (and (= 1 (count form))
-                   (not (seq? (first form)))) (first form)
-              (not (some seq? form)) form
-              :else (recur (first form))))))
+  (loop [form form]
+    (cond
+      ;; not a seq ? don't touch it
+      (not (seq? form)) form
+      ;; contains only one item that is not a seq?
+      ;; then extract it
+      (and (= 1 (count form))
+           (not (seq? (first form)))) (first form)
+      ;; there is no seq a all inside ? keep it like that
+      (not (some seq? form)) form
+      ;; else recur on the inner list
+      :else (recur (first form)))))
 
 (defn unwrap-all
   "Unwrap all elements in a form"
   [form]
-  (println form)
   (cond
+    ;; not a seq? -> do not touch it
     (not (seq? form)) form
+    ;; does it contains only terminals? then unwrap them
     (not (some seq? form)) (unwrap form)
+    ;; is it a list of list ? then recur on the inner list
+    ;; to extract the value directly
     (= 1 (count form)) (recur (first form))
+    ;; else there is more then one list, map on it
     :else (map unwrap-all form)))
 
 
@@ -138,10 +142,6 @@
     ;; return what we found
     :else form))
 
-
-;; (->> '(lor (lor (lor (land x  (not y) y y (lor y y y y y y y)))))
-;;      (simplify-logical)
-;;      (simplify-not))
 
 (defn simplify-logical
   "Symplify V(x,x) => x and equivalents"
@@ -179,7 +179,8 @@
   [form]
   (let [simplified (->> form
                         (simplify-logical)
-                        (simplify-not))]
+                        (simplify-not)
+                        (unwrap-all))]
     (cond
       (= 1 (count simplified)) (first simplified)
       :else simplified)))
@@ -196,8 +197,3 @@
             (= 'lor form) 'land
             :else (list 'not  form))
     ))
-
-
-(simplify
- (de-morgan '(lor (land (not y) z) x))
-)
