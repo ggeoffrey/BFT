@@ -86,6 +86,30 @@
 (def temp1 '(land (lor (not x) (not y)) (not z)))
 (def temp2 '(lor (land x (not y)) (lor z (lor (not w)))))
 
+
+(defn unwrap
+  "Replace all (x) by x in a form"
+  [form]
+  (cond
+    :else (loop [form form]
+            (cond
+              (not (seq? form)) form
+              (and (= 1 (count form))
+                   (not (seq? (first form)))) (first form)
+              (not (some seq? form)) form
+              :else (recur (first form))))))
+
+(defn unwrap-all
+  "Unwrap all elements in a form"
+  [form]
+  (println form)
+  (cond
+    (not (seq? form)) form
+    (not (some seq? form)) (unwrap form)
+    (= 1 (count form)) (recur (first form))
+    :else (map unwrap-all form)))
+
+
 (defn negation?
   "State if a form is a negation"
   [form]
@@ -98,10 +122,8 @@
 (defn double-negation?
   "State if a form is a double negation"
   [form]
-  (cond
-    (and (negation? form)
-         (negation? (first (rest form)))) true
-    :else false))
+  (and (negation? form)
+       (negation? (first (rest form)))))
 
 
 (defn simplify-not
@@ -117,9 +139,9 @@
     :else form))
 
 
-(->> '(lor (lor (lor (land x  (not y) y y (lor y y y y y y y)))))
-     (simplify-logical)
-     (simplify-not))
+;; (->> '(lor (lor (lor (land x  (not y) y y (lor y y y y y y y)))))
+;;      (simplify-logical)
+;;      (simplify-not))
 
 (defn simplify-logical
   "Symplify V(x,x) => x and equivalents"
@@ -155,22 +177,27 @@
 (defn simplify 
   "Take a form and symplifiy it according to De Morgan laws"
   [form]
-  )
+  (let [simplified (->> form
+                        (simplify-logical)
+                        (simplify-not))]
+    (cond
+      (= 1 (count simplified)) (first simplified)
+      :else simplified)))
 
 (defn de-morgan 
   "Apply the De Morgan theorem to a given form"
   [form]
   (cond
     (seq? form) (cond
-                  (= 'not (first form)) (rest form)
+                  (negation? form) (rest form)
                   :else (map de-morgan form))
     :else (cond
             (= 'land form) 'lor
             (= 'lor form) 'land
-            :else form)
+            :else (list 'not  form))
     ))
 
-(de-morgan '(land (not y)))
 
-(simplify-not '(not (not (lor x))))
-
+(simplify
+ (de-morgan '(lor (land (not y) z) x))
+)
